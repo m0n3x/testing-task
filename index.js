@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
-const SECRET_USERNAME = 'example112233';
-const SECRET_EMAIL = 'super_frontend_developer123@gmail.com';
+const SECRET_USERNAME = 'exam11asd123123asd23233';
+const SECRET_EMAIL = 'supdas213123d@gmail.com';
 const SECRET_PASSWORD = '11223344';
 const userDelay = {delay: 100};
 
@@ -10,6 +10,7 @@ const userDelay = {delay: 100};
   await page.setViewport({ width: 1920, height: 1080 });
   await page.goto('https://react-redux.realworld.io/#/?_k=kwfs2r');
   await page.waitForSelector('[href="#register"]');
+  
   await page.click('[href="#register"]');
   await page.type('input[type=text]', SECRET_USERNAME, userDelay);
   await page.type('input[type=email]', SECRET_EMAIL, userDelay);
@@ -41,4 +42,3 @@ const userDelay = {delay: 100};
   await browser.close();
 })()
 
-//await page.type('#mytextarea', 'World', {delay: 100}); // Types slower, like a user
