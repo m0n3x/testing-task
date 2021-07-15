@@ -1,7 +1,6 @@
 const timeout = 50000;
 jest.setTimeout(70000);
 
-
 describe(
   "/ (Home Page)", () => {
     beforeAll(async () => {
@@ -12,8 +11,8 @@ describe(
     });
   }
 );
-const SECRET_USERNAME = 'as43hj4h23f';
-const SECRET_EMAIL = 'az1254h3abvbp@mail.ru';
+const SECRET_USERNAME = 'as3423sad3s';
+const SECRET_EMAIL = 'az23v233@mail.ru';
 const SECRET_PASSWORD = '2133asdd3';
 
 describe(
@@ -74,6 +73,7 @@ describe(
       await page.waitForNavigation({
         waitUntil: 'networkidle0',
       });
+      
     }, timeout);
     it("sign in is done", async () => {
       const hrefs1 = await page.evaluate(
@@ -88,4 +88,42 @@ describe(
   }
 );
 
+const articleTitle = 'Hello world!';
+const articleAbout = 'test';
+const article = 'check puppeteer';
+const expectedTitle = articleTitle.replace(/\s/g , "-").replace(/!/g, '').toLowerCase();
 
+const expected = [expect.stringMatching(expectedTitle)];
+describe(
+  "/ (new post)", () => {
+    beforeAll(async () => {
+      await page.waitForSelector('[href="#editor"]');
+      await page.click('[href="#editor"]');
+      const form = await page.$$('input[type=text]');
+      await form[0].click();
+      await page.keyboard.type(articleTitle);
+      await form[1].click();
+      await page.keyboard.type(articleAbout);
+      await page.type('textarea', article);
+      await form[2].click();
+      await page.keyboard.type('test');
+      await page.click('button[type=button]');
+      await page.waitForNavigation({
+        waitUntil: 'networkidle0',
+      });
+      await page.waitForSelector('.article-meta');
+    }, timeout);
+    it("post was published", async () => {
+      const hrefs1 = await page.evaluate(
+        () => Array.from(
+          document.querySelectorAll('a[href]'),
+          a => a.getAttribute('href')
+        )
+      );
+      console.log(hrefs1);
+      expect(hrefs1).toEqual(
+        expect.arrayContaining(expected)
+      );
+    });
+  }
+);
